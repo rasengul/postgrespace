@@ -1,30 +1,27 @@
 # Set 04 — Procedimientos almacenados y psql 🛠️
 
 Tu veterinaria ya tiene un modelo sólido con 6 tablas, JOINs complejos y restricciones de
-calidad. Pero cada consulta y cada inserción siguen siendo operaciones sueltas. En este set
-darás el salto a **lógica que vive en el servidor**: funciones que calculan, procedimientos
-que operan y la terminal `psql` para controlarlo todo sin interfaz gráfica.
+calidad. En este set das el salto a **lógica que vive en el servidor** y al control de la
+base de datos desde la terminal, sin interfaz gráfica.
 
-> 🎯 La idea de este set: pasar de "escribir SQL" a "programar la base de datos". Las funciones
-> y procedimientos almacenados son la diferencia entre una base de datos **pasiva** (solo
-> guarda) y una base de datos **activa** (también procesa y valida).
+> 🎯 Pasar de "escribir SQL" a "programar y administrar la base de datos".
 
-> **Requisito:** haber completado los Sets 01, 02 y 03 y tener el terminal de VS Code disponible.
+> **Requisito:** haber completado los Sets 01, 02 y 03.
 >
-> 🛟 **Empieza ejecutando [`setup.sql`](setup.sql)**: deja la base en el estado "Set 03
-> terminado" (las 6 tablas con datos completos), así arrancas desde un punto conocido.
+> 🛟 **Empieza ejecutando [`setup.sql`](setup.sql)** en pgAdmin sobre `veterinariadb`:
+> deja la base en el estado "Set 03 terminado" (6 tablas con datos completos).
 
 ## Ruta de aprendizaje
 
 | # | Ejercicio | Aprendes | Tú haces |
 |---|---|---|---|
-| 1 | **[psql, backup y usuarios](paso1.md)** | `psql`, `pg_dump`, `psql < archivo`, `CREATE USER`, `GRANT` | Primer contacto con psql, backup en pgAdmin y terminal, restauración y usuario con permisos limitados |
-| 2 | **[Tu primera función almacenada](paso2.md)** | `CREATE FUNCTION`, `RETURNS TABLE`, `\df` | Función de costo total por tutor y función de resumen de historial |
-| 3 | **[Procedimiento y psql en práctica](paso3.md)** | `CREATE PROCEDURE`, `LANGUAGE plpgsql`, `CALL`, `RETURNING INTO` | Procedimiento que registra una consulta en dos tablas de una vez |
+| 1 | **[Conoce psql](paso1.md)** | `\l`, `\dt`, `\du`, `\d`, `\c`, `\q` | Conectarte, navegar y hacer consultas desde la terminal |
+| 2 | **[Tu primera función](paso2.md)** | `CREATE FUNCTION`, `RETURNS TABLE`, `LANGUAGE sql` | Función de costo total y función de historial por tutor |
+| 3 | **[Procedimiento almacenado](paso3.md)** | `CREATE PROCEDURE`, `LANGUAGE plpgsql`, `RETURNING INTO`, `RAISE NOTICE` | Procedimiento que registra una consulta en dos tablas a la vez |
+| 4 | **[Usuarios y permisos](paso4.md)** | `CREATE USER`, `GRANT`, `REVOKE` | Usuario de solo lectura y usuario con permisos parciales |
+| 5 | **[Backup y restauración](paso5.md)** | `pg_dump`, `psql < archivo`, `DROP DATABASE` | Hacer backup, modificar datos, borrar la base y restaurarla |
 
 ## El modelo con el que trabajas
-
-El mismo modelo del Set 03, ya completo:
 
 ```mermaid
 erDiagram
@@ -36,26 +33,24 @@ erDiagram
     servicios              ||--o{ consulta_servicios : "aparece en"
 ```
 
-En este set no agregas tablas nuevas: agregas **lógica** encima del modelo que ya existe.
+En este set no agregas tablas: agregas **lógica, seguridad y resiliencia** encima del
+modelo que ya existe.
 
-## Función vs Procedimiento: la distinción clave
+## Función vs Procedimiento
 
 ```
 FUNCTION  → devuelve un valor o tabla → se llama con SELECT
 PROCEDURE → ejecuta acciones          → se llama con CALL
 ```
 
-Ambos se guardan en el servidor y están disponibles para cualquier conexión (pgAdmin,
-psql, una aplicación web). No son scripts locales: **son parte de la base de datos**.
-
 ## Cómo trabajar
 
 1. Ejecuta [`setup.sql`](setup.sql) en pgAdmin (solo la primera vez o para reiniciar).
-2. Lee cada ejercicio y escribe el SQL en el Query Tool.
-3. Para los pasos de terminal, abre **Terminal → New Terminal** en VS Code.
+2. Lee cada ejercicio y escribe el SQL en el Query Tool o en la terminal.
+3. Para los ejercicios de terminal, abre **Terminal → New Terminal** en VS Code.
 4. Intenta resolver tú primero; si te atascas, despliega **👀 Ver solución**.
 
 ## 📤 Entrega
 
-Cada ejercicio se entrega con tu script `.sql`, y los pasos de terminal con un `.txt`
-del output. Lee las instrucciones completas en **[Entrega de los ejercicios](ENTREGA.md)**.
+Cada ejercicio se entrega con tu script `.sql` o `.txt` más una captura de pantalla.
+Lee las instrucciones completas en **[Entrega de los ejercicios](ENTREGA.md)**.
